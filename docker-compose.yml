@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  mayson-agent-sandbox:
+    build: .
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./workspace:/app/workspace
