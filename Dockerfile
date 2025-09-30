@@ -1,16 +1,10 @@
-# Stage 1: Build environment
-FROM debian:bullseye AS builder
+# Stage 1: Backend Build environment
+FROM node:20-bullseye AS backend-builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
     build-essential \
-    && rm -rf /var/lib/apt/lists/*
-
-# Setup and install modern Node.js and npm
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get update \
-    && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -20,6 +14,17 @@ ENV PLAYWRIGHT_BROWSERS_PATH=0
 # Install Node.js app dependencies
 COPY package.json ./
 RUN npm install
+
+# Stage 2: Frontend Build environment
+FROM node:20-bullseye AS frontend-builder
+
+WORKDIR /app
+
+COPY frontend/package.json frontend/vite.config.js ./
+RUN npm install
+
+COPY frontend ./
+RUN npm run build
 
 # Stage 2: Production environment
 FROM debian:bullseye-slim
@@ -48,8 +53,8 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
-# Create VNC password file
-RUN mkdir -p /root/.vnc && echo "password" | vncpasswd -f > /root/.vnc/passwd && chmod 600 /root/.vnc/passwd
+# Create VNC directory
+RUN mkdir -p /root/.vnc
 
 # Install noVNC
 RUN wget -qO- https://github.com/novnc/noVNC/archive/v1.2.0.tar.gz | tar xz -C /usr/local/ && \
@@ -63,12 +68,16 @@ WORKDIR /app
 ENV PLAYWRIGHT_BROWSERS_PATH=0
 
 # Copy dependency info and rebuild. This layer is cached until package.json changes.
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/node_modules ./node_modules/
+COPY --from=backend-builder /app/package*.json ./
+COPY --from=backend-builder /app/node_modules ./node_modules/
 RUN npm rebuild
 
-# Copy the rest of the application files. Changes here won't invalidate the layers above.
-COPY . .
+# Copy the rest of the application files.
+COPY server.js .
+COPY start.sh .
+
+# Copy the built frontend assets
+COPY --from=frontend-builder /app/dist /app/public
 
 # Nginx config
 COPY nginx.conf /etc/nginx/nginx.conf

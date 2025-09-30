@@ -17,7 +17,7 @@ dbus-launch --exit-with-session fluxbox &
 sleep 1
 chromium --no-sandbox --disable-gpu --disable-dev-shm-usage &
 sleep 5
-x11vnc -display :0 -forever -rfbauth /root/.vnc/passwd &
+x11vnc -display :0 -forever -nopw &
 
 sleep 5
 
