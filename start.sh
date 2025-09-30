@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Start D-Bus service
-service dbus start
-
 # Start Node.js server
 /usr/bin/node /app/server.js &
 
@@ -16,10 +13,11 @@ code-server --bind-addr 127.0.0.1:8082 --auth none /app/workspace &
 export DISPLAY=:0
 Xvfb :0 -screen 0 1024x768x16 &
 sleep 5
-fluxbox &
+dbus-launch --exit-with-session fluxbox &
+sleep 1
 chromium --no-sandbox --disable-gpu --disable-dev-shm-usage &
 sleep 5
-x11vnc -display :0 -forever -rfbauth /root/.vnc/passwd -create &
+x11vnc -display :0 -forever -rfbauth /root/.vnc/passwd &
 
 sleep 5
 
