@@ -11,7 +11,7 @@
     "terminal",
     "browser"
   ],
-  "author": "Gemini",
+  "author": "Keshav Sharma",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
