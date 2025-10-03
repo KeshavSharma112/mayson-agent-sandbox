@@ -80,7 +80,7 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | d
 
 # Disable the integrated terminal in VS Code
 RUN mkdir -p /root/.local/share/code-server/User && \
-    echo '{ "workbench.panel.defaultLocation": "right", "terminal.integrated.showOnStartup": "never", "workbench.action.terminal.toggleTerminal": "workbench.action.doNothing" }' > /root/.local/share/code-server/User/settings.json
+    echo '{ "workbench.panel.defaultLocation": "right", "terminal.integrated.showOnStartup": "never", "workbench.action.terminal.toggleTerminal": "workbench.action.doNothing", "workbench.colorTheme": "Default Dark+" }' > /root/.local/share/code-server/User/settings.json
 
 
 WORKDIR /app

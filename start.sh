@@ -15,7 +15,10 @@ Xvfb :0 -screen 0 1024x768x16 &
 sleep 5
 dbus-launch --exit-with-session fluxbox &
 sleep 1
-chromium --no-sandbox --disable-gpu --disable-dev-shm-usage --remote-debugging-port=9222 &
+while true; do
+  chromium --no-sandbox --disable-gpu --disable-dev-shm-usage --remote-debugging-port=9222 about:blank &
+  wait $!
+done &
 sleep 5
 x11vnc -display :0 -forever -nopw &
 

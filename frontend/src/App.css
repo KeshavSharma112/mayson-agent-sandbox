@@ -1,12 +1,12 @@
 /* --- Mayson.dev New Theme --- */
 :root {
-  --mayson-bg-darkest: #0c0c0f;
-  --mayson-bg-dark: #111113;
-  --mayson-bg-medium: #1a1a1d;
-  --mayson-text-primary: #e0e0e0;
+  --mayson-bg-darkest: #1e1e1e;
+  --mayson-bg-dark: #252526;
+  --mayson-bg-medium: #333333;
+  --mayson-text-primary: #d4d4d4;
   --mayson-text-secondary: #8a8a8a;
-  --mayson-accent: #7e22ce; /* Purple Accent */
-  --mayson-border: #2c2c2f;
+  --mayson-accent: #007acc; /* Blue Accent */
+  --mayson-border: #3c3c3c;
 }
 
 /* --- Main App Container --- */
