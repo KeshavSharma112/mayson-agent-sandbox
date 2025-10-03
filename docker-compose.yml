@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   mayson-agent-sandbox:
     build: .
@@ -7,3 +6,14 @@ services:
       - "9222:9222"
     volumes:
       - ./workspace:/app/workspace
+
+  sqlpad:
+    image: sqlpad/sqlpad:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - SQLPAD_BASE_URL=/sqlpad
+      - SQLPAD_ADMIN=admin@example.com
+      - SQLPAD_ADMIN_PASSWORD=admin
+    volumes:
+      - ./sqlpad-data:/var/lib/sqlpad

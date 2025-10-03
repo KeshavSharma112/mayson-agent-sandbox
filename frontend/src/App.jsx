@@ -22,6 +22,7 @@ const ChatComponent = React.memo(() => (
 
 const VsCodeComponent = React.memo(() => <iframe src="/code/" className="iframe-pane" title="VS Code" />);
 const BrowserComponent = React.memo(() => <iframe src="/vnc/vnc.html?path=vnc/websockify&autoconnect=true" className="iframe-pane" title="Browser" />);
+const SqlPadComponent = React.memo(() => <iframe src="/sqlpad/" className="iframe-pane" title="SQLPad" sandbox="allow-scripts allow-same-origin" />);
 
 const TerminalComponent = React.memo(({ glContainer }) => {
   const terminalRef = useRef(null);
@@ -85,6 +86,7 @@ function App() {
       layout.registerComponentFactoryFunction('vscode', (container) => reactComponent(container, VsCodeComponent));
       layout.registerComponentFactoryFunction('terminal', (container) => reactComponent(container, TerminalComponent));
       layout.registerComponentFactoryFunction('browser', (container) => reactComponent(container, BrowserComponent));
+      layout.registerComponentFactoryFunction('sqlpad', (container) => reactComponent(container, SqlPadComponent));
 
       const layoutConfig = {
         settings: {
@@ -125,6 +127,12 @@ function App() {
                   type: 'component',
                   componentType: 'browser',
                   title: 'Browser',
+                  isClosable: false,
+                },
+                {
+                  type: 'component',
+                  componentType: 'sqlpad',
+                  title: 'SQLPad',
                   isClosable: false,
                 },
               ],
